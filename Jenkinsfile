@@ -7,12 +7,12 @@ node {
     sh "./mvnw clean install -DskipTests"
   }
 
-  stage("Tests and Deployment") {
+  stage("Tests and run") {
     stage("Running unit tests") {
       sh "./mvnw test -Punit"
     }
-    stage("Deployment") {
-      sh 'start /B C:\\OnRoadVehicleBreakDownAssistance\\ORVBA_Backend\\On-Road-Vehicle-Breakdown-Assistance-System\\mvnw.cmd spring-boot:run -Dserver.port=9093'
+    stage("Run the application") {
+      sh 'java -jar target/On-Road-Vehicle-Breakdown-Assistance-System-0.0.1-SNAPSHOT.jar'
     }
   }
 }
