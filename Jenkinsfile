@@ -12,7 +12,7 @@ node {
       sh "./mvnw test -Punit"
     }
     stage("Deployment") {
-      sh 'start /B mvnw spring-boot:run -Dserver.port=9093'
+      sh 'start /B C:\\OnRoadVehicleBreakDownAssistance\\ORVBA_Backend\\On-Road-Vehicle-Breakdown-Assistance-System\\mvnw.cmd spring-boot:run -Dserver.port=9093'
     }
   }
 }
