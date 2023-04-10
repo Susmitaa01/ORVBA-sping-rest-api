@@ -7,12 +7,15 @@ import org.springframework.http.ResponseEntity;
 
 import com.capgemini.vehiclebreakdown.exception.MechanicNotFoundException;
 import com.capgemini.vehiclebreakdown.model.Admin;
+import com.capgemini.vehiclebreakdown.model.AdminLoginRequest;
+import com.capgemini.vehiclebreakdown.model.AdminLoginResponse;
 import com.capgemini.vehiclebreakdown.model.Feedback;
 import com.capgemini.vehiclebreakdown.model.Mechanic;
 import com.capgemini.vehiclebreakdown.model.User;
 
 public interface AdminService {
 
+	public ResponseEntity<AdminLoginResponse> login(AdminLoginRequest request);
 	public void initAdminUser();
 	public List<User> getAllUsers();
 	public Admin updateAdmin(Admin admin);

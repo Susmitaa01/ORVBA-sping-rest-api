@@ -48,18 +48,6 @@ public class AdminController {
 		adminService.initAdminUser();
 	}
 
-//	@PostMapping("/register")
-//	public ResponseEntity<String> registerAdmin(@Valid @RequestBody Admin newAdmin) {
-//		List<Admin> admins = adminRepository.findAll();
-//		for (Admin admin : admins) {
-//			if (admin.equals(newAdmin)) {
-//				return new ResponseEntity<String>("Username Already Taken", HttpStatus.BAD_REQUEST);
-//			}
-//		}
-//		adminRepository.save(newAdmin);
-//		return new ResponseEntity<String>("Registration Successful", HttpStatus.OK);
-//	}
-
 //	@PostMapping("/login")
 //	public ResponseEntity<String> loginAdmin(@Valid @RequestBody Admin admin) throws AdminNotFoundException {
 //		List<Admin> admins = adminRepository.findAll();

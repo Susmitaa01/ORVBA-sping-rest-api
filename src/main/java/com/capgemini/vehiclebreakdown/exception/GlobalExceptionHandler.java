@@ -122,16 +122,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		return response;
 	}
 	
-//	
-//	@ExceptionHandler(HttpMessageNotReadableException.class)
-//	public ResponseEntity<ExceptionResponse> handler(HttpMessageNotReadableException ex) {
-//		ExceptionResponse exception = new ExceptionResponse("Invalid Request Body", LocalDateTime.now(),
-//				HttpStatus.OK.value());
-//		ResponseEntity<ExceptionResponse> response = new ResponseEntity<ExceptionResponse>(exception,
-//				HttpStatus.OK);
-//		return response;
-//	}
-//	
 	@ExceptionHandler(Exception.class)
 	public ResponseEntity<ExceptionResponse> handler(Exception ex) {
 		ExceptionResponse exception = new ExceptionResponse(ex.getMessage(), LocalDateTime.now(),

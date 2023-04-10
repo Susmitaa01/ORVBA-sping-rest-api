@@ -36,40 +36,35 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private JwtFilter filter;
 	
-//	@Bean
-//	public Docket api() { 
-//	    return new Docket(DocumentationType.SWAGGER_2)  
-//	      .select()                                  
-//	      .apis(RequestHandlerSelectors.any())              
-//	      .paths(PathSelectors.any())                          
-//	      .build();                                           
-//	}
-	
-	
+	//to configure how Spring Security will authenticate users
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		// TODO Auto-generated method stub
 		auth.userDetailsService(userService);
 	}
+	
+	
 	@Bean
 	PasswordEncoder passwordEncoder()
 	{
 		return NoOpPasswordEncoder.getInstance();
 	}
 	
+	//to authenticate users
 	@Bean(name=BeanIds.AUTHENTICATION_MANAGER)
 	public AuthenticationManager authenticationManagerBean()throws Exception
 	{
-	return super.authenticationManagerBean();
+			return super.authenticationManagerBean();
 	}
+	
+	//enabling CORS,to receive requests from other ports
+	@Override
 	protected void configure(HttpSecurity http)throws Exception
 	{
-	http.csrf().disable().cors().and().authorizeRequests().antMatchers("/authenticate").permitAll().antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-	
-	.antMatchers(HttpMethod.POST, "/**").permitAll()
-			.antMatchers(HttpMethod.GET, "/**").permitAll()
-			.antMatchers(HttpMethod.DELETE, "/**").permitAll()
-			.antMatchers(HttpMethod.PUT, "/**").permitAll()
+	http.csrf().disable().cors().and()
+	.authorizeRequests()
+	.antMatchers("/users/login","/users/register","/mechanic/login","/mechanic/register")
+	.permitAll().antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 	.anyRequest().authenticated().and().exceptionHandling()
 	.and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 	http.addFilterBefore(filter,UsernamePasswordAuthenticationFilter.class);

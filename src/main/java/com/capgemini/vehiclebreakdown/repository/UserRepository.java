@@ -9,7 +9,12 @@ import com.capgemini.vehiclebreakdown.model.User;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
-	User findByEmailId(String emailId);
-	Optional<User> getUserByEmailId(String emailId);
+	
 	Optional<User> findByUserName(String username);
+	
+	User findByEmailId(String emailId);
+
+	Optional<User> getUserByEmailId(String emailId);
+
+	
 }

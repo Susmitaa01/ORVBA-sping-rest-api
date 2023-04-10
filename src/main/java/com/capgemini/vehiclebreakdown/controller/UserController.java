@@ -37,6 +37,8 @@ import com.capgemini.vehiclebreakdown.model.UserLoginRequest;
 import com.capgemini.vehiclebreakdown.model.UserLoginResponse;
 import com.capgemini.vehiclebreakdown.model.UserRegisterRequest;
 import com.capgemini.vehiclebreakdown.model.UserRegisterResponse;
+import com.capgemini.vehiclebreakdown.model.UserRequestRequest;
+import com.capgemini.vehiclebreakdown.model.UserRequestResponse;
 import com.capgemini.vehiclebreakdown.model.UserUpdateRequest;
 import com.capgemini.vehiclebreakdown.model.UserUpdateResponse;
 import com.capgemini.vehiclebreakdown.model.UserVerifyResponse;
@@ -113,19 +115,11 @@ public class UserController {
 			return ResponseEntity.ok().body(user);
 		
 	}
-//	
-//	@PutMapping("/update/byid/{id}")
-//	public ResponseEntity<User> updateUserById(@PathVariable(value="id") Long userId,@Valid @RequestBody User userinfo) throws UserNotFoundException
-//	{
-//		User user = userService.getUserById(userId).orElseThrow(()-> new UserNotFoundException("User not Found"));
-//		user.setEmailId(userinfo.getEmailId());
-//		user.setPhoneNumber(userinfo.getPhoneNumber());
-//		user.setUserName(userinfo.getUserName());
-//		user.setUserPassword(userinfo.getUserPassword());
-//		
-//		User updatedUser = userService.updateUser(user);
-//		return ResponseEntity.ok(updatedUser);
-//	}
+	
+	@PostMapping("/addRequest")
+	public ResponseEntity<UserRequestResponse> addRequest(@Valid @RequestBody UserRequestRequest userRequestRequest) {
+	    return userService.sendRequest(userRequestRequest);
+	}
 	
 	@GetMapping("/byemail/{email}")
 	public ResponseEntity<User> getUserByEmail(@PathVariable(value="email") String emailId)
@@ -133,17 +127,6 @@ public class UserController {
 		User user = userService.getUserByEmailId(emailId);
 		return ResponseEntity.ok().body(user);
 	}
-	
-	@PostMapping("/addRequest")
-	public ResponseEntity<String> addRequest(@Valid @RequestBody AssistanceRequired assistanceRequired) {
-		String addRequest = userService.sendRequest(assistanceRequired);
-		if (addRequest == null) {
-			return new ResponseEntity<String>("Service request not sent", HttpStatus.NOT_FOUND);
-		}
-		return new ResponseEntity<String>(addRequest, HttpStatus.OK);
-	}
-	
-	
 	
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	@ExceptionHandler(MethodArgumentNotValidException.class)

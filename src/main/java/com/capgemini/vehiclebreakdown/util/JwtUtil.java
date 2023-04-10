@@ -14,58 +14,68 @@ import io.jsonwebtoken.SignatureAlgorithm;
 
 @Service
 public class JwtUtil {
-	 private String SECRET_KEY = "secret";
+	//used to sign and verify token
+	private String SECRET_KEY = "secret";
 
-	    public String extractUsername(String token) {
-	        return extractClaim(token, Claims::getSubject);
-	    }
+	//extract username from jwt token
+	public String extractUsername(String token) {
+		return extractClaim(token, Claims::getSubject);
+	}
 
-	    public Date extractExpiration(String token) {
-	        return extractClaim(token, Claims::getExpiration);
-	    }
+	//extract expiration date from jwt token
+	public Date extractExpiration(String token) {
+		return extractClaim(token, Claims::getExpiration);
+	}
 
-	    public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
-	        final Claims claims = extractAllClaims(token);
-	        return claimsResolver.apply(claims);
-	    }
-	    private Claims extractAllClaims(String token) {
-	        return Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody();
-	    }
+	//to extract specific claim from jwt token based on function
+	public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
+		final Claims claims = extractAllClaims(token);
+		return claimsResolver.apply(claims);
+	}
 
-	    private Boolean isTokenExpired(String token) {
-	     return extractExpiration(token).before(new Date());
-	    	//return false;
-	    }
+	//extract all claims from JWT tokenn
+	private Claims extractAllClaims(String token) {
+		return Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody();
+	}
 
-	    public String generateToken(String username) {
-	        Map<String, Object> claims = new HashMap<>();
-	        return createToken(claims, username);
-	    }
-	    
-	    public String generateToken(Map<String,Object> extraClaims, String username) {
-	       
-	        return createToken(extraClaims, username);
-	    }
+	private Boolean isTokenExpired(String token) {
+		//returns true if already expired
+		return extractExpiration(token).before(new Date());
+	}
 
-	    private String createToken(Map<String, Object> claims, String username) {
-	        return Jwts.builder().setClaims(claims).setSubject(username).setIssuedAt(new Date(System.currentTimeMillis()))
-	            .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 *60 * 10))
-	        		//.setExpiration(new Date(432_000_000))
-	                .signWith(SignatureAlgorithm.HS256, SECRET_KEY).compact();
-	    }
+	//generate token with username
+	public String generateToken(String username) {
+		Map<String, Object> claims = new HashMap<>();
+		return createToken(claims, username);
+	}
 
-	    public Boolean validateToken(String token,UserDetails userDetails) {
-	        final String username = extractUsername(token);
-	        
-	        return (username.equals(userDetails.getUsername() )&& !isTokenExpired(token));
-	    }
-	    
-	    public String getUserRole(String token) {
-	    	Claims claims = extractAllClaims(token);
-	    	String role = (String) claims.get("role");
-	    	return role;
-	    }
-	    
-	    
-	
+	//generate token using additional claim and username
+	public String generateToken(Map<String, Object> extraClaims, String username) {
+
+		return createToken(extraClaims, username);
+	}
+
+	//to generate a new JWT token for a given user, containing the specified claims
+	private String createToken(Map<String, Object> claims, String username) {
+		//token will be validated for 10 hr
+		return Jwts.builder().setClaims(claims).setSubject(username).setIssuedAt(new Date(System.currentTimeMillis()))
+				.setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10))
+				// .setExpiration(new Date(432_000_000))
+				.signWith(SignatureAlgorithm.HS256, SECRET_KEY).compact();
+	}
+
+	//to check whether token is still valid and belong to specified user
+	public Boolean validateToken(String token, UserDetails userDetails) {
+		final String username = extractUsername(token);
+		//return true if token has not expired
+		return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
+	}
+
+	//retrive role from jwt token
+	public String getUserRole(String token) {
+		Claims claims = extractAllClaims(token);
+		String role = (String) claims.get("role");
+		return role;
+	}
+
 }

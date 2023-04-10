@@ -1,11 +1,9 @@
 package com.capgemini.vehiclebreakdown.model;
 
-public class AdminLoginResponse {
-	
+public class UserRequestResponse {
+		
 	private boolean status;
 	private String message;
-	private String token;
-	
 	
 	public boolean isStatus() {
 		return status;
@@ -18,12 +16,6 @@ public class AdminLoginResponse {
 	}
 	public void setMessage(String message) {
 		this.message = message;
-	}
-	public String getToken() {
-		return token;
-	}
-	public void setToken(String token) {
-		this.token = token;
 	}
 	
 	
