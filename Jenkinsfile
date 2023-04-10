@@ -12,7 +12,7 @@ node {
       sh "./mvnw test -Punit"
     }
     stage("Deployment") {
-      sh 'nohup ./mvnw spring-boot:run -Dserver.port=9093 &'
+      sh 'start /B mvnw spring-boot:run -Dserver.port=9093'
     }
   }
 }
