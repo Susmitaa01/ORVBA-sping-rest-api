@@ -4,15 +4,15 @@ node {
   }
 
   stage("Compilation") {
-    sh "./mvnw clean install -DskipTests"
+    bat "./mvnw clean install -DskipTests"
   }
 
   stage("Tests and run") {
     stage("Running unit tests") {
-      sh "./mvnw test -Punit"
+      bat "./mvnw test -Punit"
     }
     stage("Run the application") {
-      sh 'java -jar target/On-Road-Vehicle-Breakdown-Assistance-System-0.0.1-SNAPSHOT.jar'
+      bat 'java -jar target/On-Road-Vehicle-Breakdown-Assistance-System-0.0.1-SNAPSHOT.jar'
     }
   }
 }
