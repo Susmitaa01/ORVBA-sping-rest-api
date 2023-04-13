@@ -1,5 +1,5 @@
 FROM openjdk:17-jdk
-RUN groupadd --system spring && adduser --system spring --ingroup spring
+RUN groupadd --system spring && adduser --system spring -G spring
 USER spring:spring
 ARG JAR_FILE=target/*.jar
 COPY ${JAR_FILE} app.jar
