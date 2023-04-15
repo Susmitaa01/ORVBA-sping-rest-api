@@ -4,7 +4,7 @@ metadata:
   labels:
     app: On-Road-Vehicle-Breakdown-Assistance-System
     k8s-app: On-Road-Vehicle-Breakdown-Assistance-System
-  name: On-Road-Vehicle-Breakdown-Assistance-System
+  name: on-road-vehicle-breakdown-assistance-system
 spec:
   ports:
   - name: http
